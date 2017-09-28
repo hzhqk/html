@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		.selbody {
+			width: 130px;
+			height: 31px;
+			margin-top: 20px;
+			margin-left: 30px;
+			background-color: #dfdfdf;
+			text-align: center;
+			position: relative;
+			line-height: 31px;
+			border: 0.5px solid gray;
+		}
+		.seled {
+
+		}
+		.arrow {
+			position: absolute;
+			cursor: pointer;
+			top: 10px;
+			right: 2px;
+			height: 11px;
+			width: 14px;
+			background:url("triangle.png") center center no-repeat;
+		}
+		.selItems {
+			width: 130px;
+			display: none;
+			margin-top: 0;
+			position: absolute;
+			top: 31px;
+			left: -0.5px;
+			background-color: rgba(238,238,238,0.9);
+			border-left: 0.5px solid gray;
+			border-right: 0.5px solid gray;	
+			border-bottom: 0.5px solid gray;
+		}
+		.selItem {
+			height: 23px;
+			width: 130px;
+			text-align: center;
+			line-height: 23px;
+		}
+	</style>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$(".arrow").click(function(){
+				$(".selItems").toggle();
+				if($(".selItems").is(":visible")) {
+					var text = $(".seled").text();
+					$(".selItem").each(function(index){
+						if(text == $(this).text()) {
+							$(".selItem").css("background-color","");
+							$(this).css("background-color","blue");
+						}
+					});
+					var selItemsHeight = $(".selItems").height();
+					var windowScrollTop = $(window).scrollTop();
+					var selBodyOffsetTop = $(".selbody").offset().top;
+					var selBodyTop = selBodyOffsetTop + $(".selbody").height() - windowScrollTop;
+					if((selBodyTop + selItemsHeight > $(window).height()) && (selBodyOffsetTop - windowScrollTop > selItemsHeight))  {
+						$(".selItems").css("top",0 - $(".selItems").height()).css("border-top","0.5px solid gray");
+					} else {
+						$(".selItems").css("top",31);
+					}
+				}
+			});
+			$(".selbody").mouseleave(function(){
+				$(".selItems").hide();
+			})
+			$(".selItem").hover(function(){
+					$(this).siblings().css("background-color","");
+					$(this).css("background-color","blue").css("cursor","pointer");
+			});
+			$(".selItem").click(function(){
+					$(".seled").text($(this).text());
+					$(".selItems").hide();
+			});
+		})
+	</script>
+</head>
+<body>
+	<div class="selbody">
+		<div class="seled">宁波市</div>
+		<div class="arrow"></div>
+		<div class="selItems">
+			<div class="selItem">宁波市</div>
+			<div class="selItem">慈溪市</div>
+			<div class="selItem">鄞州区</div>
+			<div class="selItem">象山县</div>
+		</div>
+	</div>
+</body>
+</html>
